@@ -1,0 +1,24 @@
+{
+  "name": "vendor_name/mamont-ad",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Vladislav",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "ext-xdebug": "*",
+    "symfony/dotenv": "^6.1",
+    "aws/aws-sdk-php": "^3.218",
+    "ext-pdo": "*"
+  },
+  "autoload": {
+    "classmap": ["app"],
+    "psr-4": {
+      "app\\": "app/"
+    }
+  }
+}
