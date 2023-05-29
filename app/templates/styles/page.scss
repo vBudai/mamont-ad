@@ -1,0 +1,35 @@
+@import url("fonts.css");
+
+body{
+  position: sticky;
+  top: 0;
+  left: 0;
+  min-height: 100vh;
+  height: 100%;
+
+  min-width: 100vw;
+  width: 100%;
+
+  font-family: Inter, serif;
+
+  background: url("../images/body-bg320.svg") no-repeat;
+  background-size: cover;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  @media(min-width: 744px){
+    background: url("../images/body-bg744.svg") no-repeat;
+    background-size: cover;
+  }
+
+  @media(min-width: 1440px){
+    background: url("../images/body-bg1440.svg") no-repeat center;
+    background-size: cover;
+  }
+
+}
+
+a{
+  color: black;
+}
