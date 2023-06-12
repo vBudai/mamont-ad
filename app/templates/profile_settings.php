@@ -7,6 +7,7 @@ $phone = "";
 $login_err = "";
 $email_err = "";
 $phone_err = "";
+$password_err = "";
 
 if(isset($_SESSION['phone_number'])){
     $phone = $_SESSION['phone_number'];
@@ -16,7 +17,7 @@ if(isset($_SESSION['phone_number'])){
 
 if(isset($_SESSION['login'])){
     $login = $_SESSION['login'];
-    $phone_err = "Такой логин уже занят";
+    $login_err = "Такой логин уже занят";
     unset($_SESSION['login']);
 }
 
@@ -24,6 +25,11 @@ if(isset($_SESSION['email'])){
     $login = $_SESSION['email'];
     $phone_err = "Такая почта уже занята";
     unset($_SESSION['email']);
+}
+
+if(isset($_SESSION['password'])){
+    $password_err = "Неправильный пароль";
+    unset($_SESSION['password']);
 }
 
 
@@ -36,7 +42,7 @@ if(isset($_SESSION['email'])){
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Профиль</title>
+    <title>Настройки профиля</title>
 
     <link href="../styles/reset.css" rel="stylesheet" type="text/css">
     <link href="../styles/page.css" rel="stylesheet" type="text/css">
@@ -59,7 +65,7 @@ if(isset($_SESSION['email'])){
                 <img src="images/no_user_avatar.svg" alt="">
             </div>
 
-            <div class="profile__user__name">Имя Фамилия</div>
+            <div class="profile__user__name"><?= $data['username'] ?></div>
 
         </div>
         <div class="profile__menu__list">
@@ -118,10 +124,10 @@ if(isset($_SESSION['email'])){
 
             <div class="settings__password">
                 <span>Пароль</span>
-                <input type="text" placeholder="Введите действующий пароль">
-                <input type="text" placeholder="Введите новый пароль" name="password_md5">
-                <input type="text" placeholder="Повторите новый пароль">
-                <span class="form__error"></span>
+                <input id="password" type="password" placeholder="Введите действующий пароль">
+                <input id="newPassword" type="password" placeholder="Введите новый пароль" name="password_md5">
+                <input id="newPasswordRepeat" type="password" placeholder="Повторите новый пароль">
+                <span class="form__error"><?=$password_err?></span>
             </div>
 
             <div class="settings__email">
@@ -147,13 +153,6 @@ if(isset($_SESSION['email'])){
 </div>
 
 
-
-
-
-
-
-
-<script src="../scripts/profile.js"></script>
-<script src="../scripts/header.js"></script>
+<script src="../scripts/profile_settings.js"></script>
 </body>
 </html>

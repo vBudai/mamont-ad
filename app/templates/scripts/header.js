@@ -2,7 +2,7 @@
 const mediaChecker = window.matchMedia('(min-width: 744px)');
 
 function changeLogoText(e){
-    const logo = document.querySelector('.logo');
+    const logo = document.querySelector('.logo a');
     if(e.matches)
         logo.innerHTML = "МАМОНТ";
     else
@@ -29,4 +29,20 @@ if(header_menu)
     header_menu.addEventListener('click', menuController);
 
 
+// Открытие списка категорий
 
+const categories = document.querySelector(".categories");
+const categories_list = document.querySelector(".categories__list");
+
+categories.addEventListener("click", function (){
+
+    categories_list.classList.toggle("categories__list__active");
+    categories.classList.toggle("categories__active")
+
+})
+document.addEventListener("click", function(event) {
+    if (!categories.contains(event.target)) {
+        categories_list.classList.remove("categories__list__active");
+        categories.classList.remove("categories__active")
+    }
+});

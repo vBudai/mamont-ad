@@ -2,6 +2,8 @@
 
 namespace app\core;
 
+use app\controllers\ErrorController;
+
 class Router
 {
 
@@ -46,7 +48,7 @@ class Router
         }
 
         if($matches == null){
-            echo '404 error';
+            (new ErrorController())->error(404);
         }
         else{
             $controller = new $controllerName();

@@ -12,23 +12,39 @@ class ProfileModel extends BaseModel
     public function getUserAds($id_user = null): array|null
     {
         $data = [];
+
         if($id_user != null && $id_user > 0) {
             $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE id_user=" . $id_user . ' AND is_archived=0 ORDER BY id' ;
             $data = $this->db->query($sql);
             $this->transformationAdsData($data);
         }
+
         return $data;
+    }
+
+    public function getUserName($id_user): string
+    {
+        $sql = "SELECT login, first_name, last_name FROM user WHERE id=" . $id_user;
+        $data = $this->db->query($sql)[0];
+        if($data["first_name"] !== "" && $data['last_name'] !== "")
+            return $data["first_name"] . " " . $data['last_name'];
+        else
+            return $data['login'];
     }
 
     // Получение просмотренных объявлений
     public function getWatchedAds($id_user=null): array|null
     {
         $data = [];
+
         if($id_user != null && $id_user > 0) {
             $sql = "SELECT id_ad FROM watched_ad WHERE id_user=" . $id_user . ' ORDER BY id DESC';
             $id_ads = $this->db->query($sql);
-            $data += $this->getAdsById($id_ads);
+
+            if($id_ads != null)
+                $data = $this->getAdsById($id_ads, 0);
         }
+
         return $data;
     }
 
@@ -36,11 +52,13 @@ class ProfileModel extends BaseModel
     public function getFavoritesAds($id_user=null): array|null
     {
         $data = [];
+
         if($id_user != null && $id_user > 0) {
-            $sql = "SELECT id_ad FROM favorite WHERE id_user=" . $id_user . ' AND is_archived=0 ORDER BY id DESC';
+            $sql = "SELECT id_ad FROM favorite WHERE id_user=" . $id_user . ' ORDER BY id DESC';
             $id_ads = $this->db->query($sql);
-            $data = $this->getAdsById($id_ads);
+            $data = $this->getAdsById($id_ads, 0);
         }
+
         return $data;
     }
 
@@ -48,11 +66,13 @@ class ProfileModel extends BaseModel
     public function getArchivedAds($id_user=null): array|null
     {
         $data = [];
+
         if($id_user != null && $id_user > 0) {
             $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE is_archived=1 AND id_user=".$id_user;
             $data = $this->db->query($sql);
             $this->transformationAdsData($data);
         }
+
         return $data;
     }
 
@@ -127,18 +147,12 @@ class ProfileModel extends BaseModel
         $this->db->query($sql);
     }
 
-    // Редактирование объявления
-    public function editAd($id_ad, $changes = []): void
+    public function addFavoriteAd($id_ad, $id_user): void
     {
-        // UPDATE `ad` SET title='Toyota Wish, 2013', max_price='1249000' WHERE id=1;
-        if($changes != []){
-            $sql = "UPDATE ad SET ";
-            foreach ($changes as $field => $newValue)
-                if(!empty($field))
-                    $sql .= $field . "='" . $newValue . "', ";
-
-            $sql = substr($sql, 0, -2); //Удаление последнего пробела и запятой
-            $sql .= " WHERE id=" . $id_ad;
+        // Проверка, добавлено ли объявление уже в избранное
+        $sql = "SELECT id FROM favorite WHERE id_ad=" . $id_ad . " AND id_user=".$id_user;
+        if(!$this->db->query($sql)){
+            $sql = "INSERT INTO favorite (id, id_ad, id_user) VALUES (NULL, " . $id_ad . ", " . $id_user . ")";
             $this->db->query($sql);
         }
     }
@@ -170,41 +184,19 @@ class ProfileModel extends BaseModel
             return $usedFields;
     }
 
-    // Получение диалогов пользователя
-    public function getUserDialogs($id_user): array
-    {
-        $sql = "SELECT id, id_ad FROM dialog WHERE id_seller=" . $id_user . " OR id_client=" . $id_user ;
-        $dialogs = $this->db->query($sql);
-        for($i=0; $i<count($dialogs); $i++)
-            $dialogs[$i] = $this->removeRepeatedInfo($dialogs[$i]);
-        return $dialogs;
-    }
-
-    // Удаление диалога
-    public function deleteUserDialog($id_dialog): void
-    {
-        $sql = "DELETE FROM dialog WHERE id=" . $id_dialog;
-        $this->db->query($sql);
-    }
-
-    // Получение сообщений диалога
-    public function getDialogMessages($id_dialog): array
-    {
-        $sql = "SELECT * FROM message WHERE id_dialog=" . $id_dialog;
-        $messages = $this->db->query($sql);
-        for($i=0; $i<count($messages); $i++)
-            $messages[$i] = $this->removeRepeatedInfo($messages[$i]);
-        return $messages;
-    }
 
     // Получение объявления по его id
-    private function getAdsById($id_ads): array|null
+    private function getAdsById($id_ads, $is_archived = 0): array|null
     {
         $ads = [];
+        $ad = [];
+
         foreach ($id_ads as $key => $value){
-            $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE id=" .$value['id_ad'];
+            $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE id=" .$value['id_ad'] . " AND is_archived=" . $is_archived;
+            //$sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE id=93 AND is_archived=0";
             $ad = $this->db->query($sql);
-            $ads[] = $ad[0];
+            if($ad != null)
+                $ads[] = $ad[0];
         }
         $this->transformationAdsData($ads);
         return $ads;
@@ -223,7 +215,7 @@ class ProfileModel extends BaseModel
     private function transformationAdsData( &$arr ): void
     {
         foreach ($arr as $key => $value){
-            $arr[$key] = $this->removeRepeatedInfo($value); // Удаление повторяющихся полей
+            //$arr[$key] = $this->removeRepeatedInfo($value); // Удаление повторяющихся полей
             $arr[$key]['image_url'] = $this->getAdImage($value['id']); // Добавление изображения
         }
     }

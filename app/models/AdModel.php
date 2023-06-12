@@ -57,11 +57,17 @@ class AdModel extends BaseModel
                 }
             }
         }
-        else {
-            echo 'ID error: ID = ' . $id . '<br>';
-        }
 
         return $data;
+    }
+
+
+    public function isFavoriteAd($id_user, $id_ad): bool
+    {
+        $sql = "SELECT id FROM favorite WHERE id_ad=" . $id_ad . " AND id_user=" . $id_user;
+        $data = $this->db->query($sql);
+
+        return $data !== [];
     }
 
 

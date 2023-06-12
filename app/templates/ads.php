@@ -2,7 +2,17 @@
 /*echo '<pre>';
 var_dump($this->modelData);
 echo '</pre>';
-*/?>
+
+*/
+
+$page_title = "Все объявления";
+
+if(isset($ads['page_title'])){
+    $page_title = $ads['page_title'];
+    unset($ads['page_title']);
+}
+
+?>
 <!DOCTYPE html>
 
 <html>
@@ -10,12 +20,12 @@ echo '</pre>';
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Объявления</title>
+        <title><?=$page_title?></title>
 
-        <link href="styles/reset.css" rel="stylesheet" type="text/css">
-        <link href="styles/page.css" rel="stylesheet" type="text/css">
-        <link href="styles/header.css" rel="stylesheet" type="text/css">
-        <link href="styles/ads.css" rel="stylesheet" type="text/css">
+        <link href="../../styles/reset.css" rel="stylesheet" type="text/css">
+        <link href="../../styles/page.css" rel="stylesheet" type="text/css">
+        <link href="../../styles/header.css" rel="stylesheet" type="text/css">
+        <link href="../../styles/ads.css" rel="stylesheet" type="text/css">
     </head>
 <body>
 
@@ -33,15 +43,13 @@ echo '</pre>';
                     <label>
                         Где искать
                     </label>
-                    <input type="text" placeholder="Город">
+                    <input id="filter_city" type="text" placeholder="Город">
                     <div class="filter__main-params__city__list">
                         <ul>
-                            <li>Сургут</li>
-                            <li>Пыть-ях</li>
-                            <li>Нефтеюганск</li>
-                            <li>Лянтор</li>
-                            <li>Нижневартовск</li>
-                            <li>Белый Яр</li>
+                            <?php
+                                for ($i = 0; $i < count($ads['city']); $i++)
+                                    echo "<li>" . $ads['city'][$i] . "</li>";
+                            ?>
                         </ul>
                     </div>
                 </div>
@@ -50,9 +58,9 @@ echo '</pre>';
                     <label>
                         Цена
                     </label>
-                    <input type="text" placeholder="от">
+                    <input id="filter_min-price" type="text" placeholder="от">
                     <span class="slash"></span>
-                    <input type="text" placeholder="до">
+                    <input id="filter_max-price" type="text" placeholder="до">
                 </div>
             </div>
 
@@ -85,11 +93,12 @@ echo '</pre>';
         <!-- ================ Объявления ================ -->
 
         <section class="ads">
-            <h1 class="ads__title">Все объявления</h1>
+            <h1 class="ads__title"><?=$page_title?></h1>
 
-            <?php for ($i = 0; $i < count($ads); $i++) { ?>
+            <?php for ($i = 0; $i < count($ads)-1; $i++) { ?>
 
             <div class="ads__ad">
+                <span id="ad_city" style="display: none"><?=$ads[$i]['city']?></span>
                 <a href="http://mamont-ad/ad/<?=$ads[$i]['id']?>">
                     <img src="<?=$ads[$i]['image_url']?>" class="ads__ad__mainImage" />
                 </a>
@@ -106,9 +115,13 @@ echo '</pre>';
                         <?=$ads[$i]['date']?>
                     </div>
                 </div>
-                <object class="ads__ad__add__favorite">
-                    <a><img class="ads__ad__add__favorite__img" src="images/favorites_icon.svg" alt=""></a>
-                </object>
+                <div class="ads__ad__add__favorite">
+                    <?php if(isset($ads[$i]['isFavorite']) && $ads[$i]['isFavorite']): ?>
+                        <a id="delete" href="../../profile/favorites/delete/<?=$ads[$i]['id']?>" target="_blank"><img class="ads__ad__add__favorite__img" src="../images/favorites_icon_red.svg" alt=""></a>
+                    <?php else: ?>
+                        <a id="add" href="../../profile/favorites/add/<?=$ads[$i]['id']?>" target="_blank"><img class="ads__ad__add__favorite__img" src="../images/favorites_icon.svg" alt=""></a>
+                    <?php endif; ?>
+                </div>
             </div>
 
             <?php } ?>
@@ -121,7 +134,7 @@ echo '</pre>';
 
 
 
-    <script src="scripts/ads.js"></script>
+    <script src="../../scripts/ads.js"></script>
 
 </body>
 </html>

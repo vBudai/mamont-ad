@@ -3,6 +3,8 @@
 use app\core\Router;
 use app\database\Database;
 
+require_once "app/config/BASE_URL.php";
+
 session_start();
 
 require __DIR__.'./vendor/autoload.php';

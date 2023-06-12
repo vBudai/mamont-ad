@@ -16,7 +16,7 @@ class AuthController
     public function __construct()
     {
         if(isset($_SESSION['id_user']))
-            header("Location: http://mamont-ad/profile");
+            header("Location: " . BASE_URL . "profile");
 
         $this->model = new AuthModel();
         $this->view = new AuthView();
@@ -52,24 +52,18 @@ class AuthController
 
 
 
-            header("Location: http://mamont-ad/auth");
+            header("Location: " . BASE_URL . "auth");
         }
         else if(is_int($this->modelData)){
             //session_start();
             $_SESSION['id_user'] = $this->modelData;
-            header("Location: http://mamont-ad/");
+            header("Location: " . BASE_URL);
         }
     }
 
     public function registration_Action($params = []) : void
     {
-        // Примерчик массива
-        /*$params = [
-            'email' => 'email',
-            'phone_number' => '79999',
-            'login' => 'lalala',
-            'password' => '123',
-        ];*/
+
         // Парсинг данных с формы
         $params = [];
         foreach ($_POST as $param => $value)
@@ -88,11 +82,11 @@ class AuthController
                     $_SESSION['login'] = $params['login'];
             }
 
-            header("Location: http://mamont-ad/auth");
+            header("Location: " . BASE_URL . "auth");
         }
         else if (is_int($this->modelData)){
            $_SESSION['id_user'] = $this->modelData;
-            header("Location: http://mamont-ad/");
+            header("Location: " . BASE_URL);
         }
 
     }

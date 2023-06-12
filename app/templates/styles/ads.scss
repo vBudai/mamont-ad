@@ -1,3 +1,18 @@
+@mixin scrollBar(){
+
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar{
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 18px;
+    background: #7442C8;
+  }
+}
+
+
 .ads-container{
   display: flex;
   flex-direction: column;
@@ -35,9 +50,9 @@
     width: 253px;
     min-width: 253px;
     height: 370px;
-    margin: auto 10px auto 20px;
+    margin: 130px 10px 0 5px;
+    align-self: start;
     transform: translate(0, 25%);
-    position: sticky;
   }
 }
 
@@ -75,6 +90,7 @@
     width: 536px;
     margin: 5px auto 10px auto;
     padding: 0;
+    grid-template-rows: 53px;
   }
 
   @media (min-width: 1440px) {
@@ -83,6 +99,7 @@
     flex-direction: column;
     align-items: center;
     margin: 14px auto 22px auto;
+    grid-template-rows: 1fr;
   }
 }
 
@@ -112,7 +129,7 @@
     background: rgba(217, 217, 217, 0.5);
     border-radius: 18px;
     height: 24px;
-    width: 122px;
+    width: 150px;
 
     padding: 0 17px 0 17px;
 
@@ -348,8 +365,8 @@
 
   text-align: start;
 
-  background: #E9E8E8;
-  width: 122px;
+  background: #ECECEC;
+  width: 150px;
   border-radius: 0 0 12px 12px;
 
 
@@ -360,9 +377,20 @@
   display: none;
   z-index: 2;
 
+  @include scrollBar();
+  height: 260px;
+
+  &::-webkit-scrollbar-track{
+    margin: 0 0 13px 0;
+  }
+
+  &::-webkit-scrollbar{
+    width: 3px;
+  }
+
   li{
     padding: 5px 17px 5px 17px;
-    width: 122px;
+    width: 150px;
 
     @media (min-width: 744px) {
       width: 100%;
@@ -397,6 +425,8 @@
   margin: 10px auto 0 auto;
 
   @media (min-width: 744px) {
+    @include scrollBar();
+
     display: grid;
 
     grid-template-columns: 1fr 1fr 1fr;
@@ -405,13 +435,28 @@
     border-radius: 18px;
     margin: 15px auto 15px auto;
 
+    height: fit-content;
+    max-height: 900px;
+
     padding: 10px 22px;
   }
 
   @media (min-width: 1440px) {
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 11px 33px;
+    margin: 10px 5px 0 auto;
+
+    height: fit-content;
+    max-height: 956px;
+
+
+
+    &::-webkit-scrollbar-track{
+      margin: 17px 0 17px 0;
+    }
   }
+
+
 }
 
 .ads__title{
@@ -490,7 +535,7 @@
 
     transition: transform 0.2s;
     &:hover{
-      transform: scale(1.03);
+      transform: scale(1.01);
     }
   }
 
@@ -498,6 +543,8 @@
 }
 
 .ads__ad__mainImage{
+  object-fit: cover;
+
   border-radius: 12px;
   width: 74px;
   height: 64px;
@@ -521,6 +568,7 @@
 
   @media (min-width: 744px) {
     height: 74px;
+    margin-left: 0;
   }
 }
 
@@ -557,7 +605,7 @@
 
   @media (min-width: 744px) {
     font-size: 12px;
-    margin: 2px 0 10px 10px;
+    margin: 4px 0 10px 10px;
   }
 }
 
@@ -577,6 +625,9 @@
 }
 
 .ads__ad__add__favorite__img{
+  height: 16px;
+  width: 16px;
+
   @media (min-width: 744px) {
     height: 20px;
     width: 20px;

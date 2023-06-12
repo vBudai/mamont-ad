@@ -191,6 +191,11 @@
 }
 
 .main-info__favorite{
+  transition: all 0.2s;
+  &:hover{
+    scale: 1.05;
+  }
+
   align-self: start;
   height: 20px;
   width: 20px;

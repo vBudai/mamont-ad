@@ -13,11 +13,45 @@ use Aws\S3\Exception\S3Exception;
 
 class CreateAdModel extends BaseModel
 {
+    public function getAllNames($table): array|null
+    {
+        $sql = "SELECT name FROM " . $table;
+
+        $names = $this->db->query($sql);
+
+        if($names){
+            foreach ($names as $index => $value) // [0] => [name] => "..." в [0] => "..."
+                $names[$index] = $value['name'];
+
+            return $names;
+        }
+
+        return null;
+    }
+
+    public function getAdInfo($id_ad): array|null
+    {
+        $sql = "SELECT id_user, title, description, min_price, max_price, id_city, id_main_category FROM ad WHERE id=" . $id_ad;
+        $ad = $this->db->query($sql);
+
+        if($ad)
+            return $ad[0];
+
+        return null;
+    }
+
     public function getIdByName($table, $name): string|null
     {
         $sql = "SELECT id FROM " . $table . " WHERE name='" . $name . "'";
-        $id_city = $this->db->query($sql);
-        return $id_city[0]['id'];
+        $id = $this->db->query($sql);
+        return $id[0]['id'];
+    }
+
+    public function getNameById($table, $id): string|null
+    {
+        $sql = "SELECT name FROM " . $table . " WHERE id='" . $id . "'";
+        $name = $this->db->query($sql);
+        return $name[0]['name'];
     }
 
     public function create_ad($ad = []) : bool|string
@@ -50,29 +84,74 @@ class CreateAdModel extends BaseModel
 
         $this->db->query($sql);
         $id_ad = "";
-
+        $id_ad = $this->db->lastInsertId("ad");
         // Добавление изображений
         if(isset($images)){
-            $id_ad = $this->db->lastInsertId("ad");
             $this->addImagesToAd($id_ad, $images);
         }
 
         return $id_ad;
     }
 
+    public function editAd($id_ad, $newData): void
+    {
+        if(isset($newData['images'])){
+            $images = $newData['images']; // Вытаскивание переданных изображений
+            unset($newData['images']);
+        }
+
+        // UPDATE `ad` SET `title` = 'авыаываывавыаfdsasd', `description` = 'афывпыаврпырпыарыапврыеапврывапрывпdsaаfsdfsd', `min_price` = '123' WHERE `ad`.`id` = 107;
+        $sql = "UPDATE ad SET ";
+
+        foreach ($newData as $field => $value){
+            if(str_starts_with($field, "id_") && $field !== "id_user")
+                $value = $this->getIdByName(substr($field, 3, null), $value);
+
+
+            if(($field === "min_price" || $field === "max_price") && $value == ''){
+                $sql .= "`" . $field . "`=NULL, ";
+            }
+            else
+                $sql .= "`" . $field . "`='" . $value . "', ";
+        }
+
+        $sql = substr($sql, 0, -2);
+        $sql .= " WHERE id=" . $id_ad;
+
+        $this->db->query($sql);
+
+        // Добавление изображений
+        if(isset($images))
+            $this->addImagesToAd($id_ad, $images);
+    }
+
+
+    public function deleteAdImages($id_ad): void
+    {
+        // Удаление изображений
+        $sql = "SELECT image_url FROM image_ad WHERE id_ad=" . $id_ad;
+        $images = $this->db->query($sql);
+        for($i = 0; $i < count($images); $i++)
+            Container::getFileUploader()->delete($images[$i]['image_url']);
+
+
+        $sql = "DELETE FROM image_ad where id_ad=" . $id_ad;
+        $this->db->query($sql);
+    }
+
     // Добавление изображений в объявление
     private function addImagesToAd($id_ad, $images) : void
     {
         $sql = "INSERT INTO image_ad VALUES ";
-        $values = "(NULL, " . $id_ad . "https://storage.yandexcloud.net/ads-images/YCAJE6qbvdLHnjCGxpxbO-BeC/no-photo.png)";
+        $values = "(NULL, " . $id_ad . ", 'https://storage.yandexcloud.net/ads-images/no-photo.png')";
 
-        if(!empty($images)){
+        if(!empty($images) && $images[0]['name'] !== ""){
 
             $values = "";
 
             for($i = 0; $i < count($images['name']); $i++){
 
-                $picture_url = "https://storage.yandexcloud.net/ads-images/YCAJE6qbvdLHnjCGxpxbO-BeC/no-photo.png"; // Картинка "нет фото"
+                $picture_url = "https://storage.yandexcloud.net/ads-images/no-photo.png"; // Картинка "нет фото"
 
 
                 if ($file = fopen($images['tmp_name'][$i], 'r+')){
@@ -99,9 +178,6 @@ class CreateAdModel extends BaseModel
         $sql .= $values;
 
         $this->db->query($sql);
-
-        // Переход на новое объявление
-        //header("Location: ");
     }
 
 

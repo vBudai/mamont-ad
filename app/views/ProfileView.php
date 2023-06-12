@@ -13,7 +13,7 @@ class ProfileView
         require __DIR__ . "../../templates/profile_ads.php";
     }
 
-    public function showSettings($data): void
+    public function showSettings($data = []): void
     {
         require __DIR__ . "../../templates/profile_settings.php";
     }

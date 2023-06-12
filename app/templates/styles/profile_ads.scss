@@ -1,3 +1,15 @@
+@mixin scrollBar(){
+
+  overflow-y: scroll;
+  &::-webkit-scrollbar{
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    border-radius: 18px;
+    background: #7442C8;
+  }
+}
+
 .ads{
   display: grid;
   flex-direction: column;
@@ -6,6 +18,11 @@
 
   @media (min-width: 744px) {
     display: grid;
+
+    @include scrollBar();
+
+    height: auto;
+    max-height: 900px;
 
     grid-template-columns: 1fr 1fr 1fr;
 
@@ -99,6 +116,9 @@
     }
 
     transition: transform 0.2s;
+    &:hover{
+      transform: scale(1.01);
+    }
   }
 
 
@@ -106,6 +126,8 @@
 
 
 .ads__ad__mainImage{
+  object-fit: cover;
+
   border-radius: 12px;
   width: 79px;
   height: 64px;
@@ -129,6 +151,7 @@
 
   @media (min-width: 744px) {
     height: 74px;
+    margin-left: 0;
   }
 }
 
@@ -197,6 +220,7 @@
 }
 
 .ad__settings{
+white-space: nowrap;
 
   display: none;
 
@@ -207,13 +231,12 @@
 
   position: absolute;
 
-  font-size: 8px;
+  font-size: 10px;
   font-weight: 200;
 
-  width: 87px;
-  height: 56px;
+  padding: 5px 15px;
 
-  left: -83px;
+  right: 8px;
   top: 7px;
 
   background: rgba(236, 236, 236, 0.95);
@@ -224,10 +247,9 @@
     font-size: 16px;
     text-align: start;
 
-    width: 158px;
-    height: 102px;
+    //width: 158px;
+    padding: 10px 20px;
 
-    left: auto;
     right: 12px;
     top: 10px;
 
@@ -386,6 +408,8 @@
 
   border-radius: 18px;
   background: #fff;
+
+  margin: 0 auto;
 
   ul{
     height: 100%;

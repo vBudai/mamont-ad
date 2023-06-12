@@ -6,6 +6,7 @@ RewriteRule ^styles/(.+).scss$ /app/templates/styles/$1.scss [L]
 RewriteRule ^styles/(.*).css.map$ app/templates/styles/$1.css.map [L,QSA]
 RewriteRule ^scripts/(.+).js$ app/templates/scripts/$1.js [L]
 
+
 RewriteRule ^images/(.+).svg$ app/templates/images/$1.svg [L]
 RewriteRule ^images/(.+).webp$ app/templates/images/$1.webp [L]
 RewriteRule ^images/(.+).png$ app/templates/images/$1.png [L]
@@ -21,6 +22,11 @@ RewriteRule ^ad/images/(.+).svg$ app/templates/images/$1.svg [L]
 RewriteRule ^ad/images/(.+).webp$ app/templates/images/$1.webp [L]
 RewriteRule ^ad/images/(.+).png$ app/templates/images/$1.png [L]
 RewriteRule ^ad/images/(.+).jpeg$ app/templates/images/$1.jpeg [L]
+
+RewriteRule ^create_ad/edit/images/(.+).svg$ app/templates/images/$1.svg [L]
+RewriteRule ^create_ad/edit/images/(.+).webp$ app/templates/images/$1.webp [L]
+RewriteRule ^create_ad/edit/images/(.+).png$ app/templates/images/$1.png [L]
+RewriteRule ^create_ad/edit/images/(.+).jpeg$ app/templates/images/$1.jpeg [L]
 
 RewriteRule ^fonts/(.+).woff2$ app/templates/fonts/$1.woff2 [L,QSA]
 RewriteRule ^fonts/(.+).woff app/templates/fonts/$1.woff [L,QSA]

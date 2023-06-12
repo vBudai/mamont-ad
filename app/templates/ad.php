@@ -42,9 +42,12 @@
 
             <div class="images__slider">
                 <?php
-                for($i = 0; $i < count($data['images']); $i++){
-                    echo '<label class=""></label>';
-                }
+                if(count($data['images']) === 1)
+                    echo '<label class="" style="display: none"></label>';
+                else
+                    for($i = 0; $i < count($data['images']); $i++)
+                        echo '<label class=""></label>';
+
                 ?>
             </div>
         </div>
@@ -59,7 +62,15 @@
                 </span>
             </div>
 
-            <img src="../images/favorites_icon.svg" alt="" class="main-info__favorite">
+            <?php if($data['isFavorite'] === true):?>
+                <a href="../../profile/favorites/delete/<?=$data['id']?>" target="_blank">
+                    <img class="main-info__favorite" src="../images/favorites_icon_red.svg" alt="" >
+                </a>
+            <?php else: ?>
+                <a href="../../profile/favorites/add/<?=$data['id']?>" target="_blank">
+                    <img class="main-info__favorite" src="../images/favorites_icon.svg" alt="" >
+                </a>
+            <?php endif; ?>
         </div>
 
         <div class="ad__desc">

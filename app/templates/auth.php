@@ -91,13 +91,13 @@ if(isset($_SESSION['form']) && $_SESSION['form'] === "reg"){
         <span class="login__title">Вход</span>
 
         <div class="form__container">
-            <input type="text" class="form__input" placeholder="Логин, email, телефон" name="login" value="<?= $login_name ?>">
-            <span class="form__error"><?= $login_name_err ?></span>
+            <input id="login_login" type="text" class="form__input" placeholder="Логин, email, телефон" name="login" value="<?= $login_name ?>">
+            <span id="login_login_err" class="form__error"><?= $login_name_err ?></span>
         </div>
 
         <div class="form__container">
-            <input type="password" class="form__input" placeholder="Введите пароль" name="password">
-            <span class="form__error"><?= $login_password_err ?> </span>
+            <input id="login_password" type="password" class="form__input" placeholder="Введите пароль" name="password">
+            <span id="login_password_err" class="form__error"><?= $login_password_err ?> </span>
         </div>
 
         <input type="submit" class="login__enter" value="ВОЙТИ">
@@ -110,26 +110,26 @@ if(isset($_SESSION['form']) && $_SESSION['form'] === "reg"){
         <span class="reg__title-reg">Регистрируйся</span>
 
         <div class="form__container">
-            <input type="text" class="form__input" placeholder="Почта" name="email" value="<?= $reg_email ?>">
-            <span class="form__error"><?= $reg_email_err ?></span>
+            <input id="reg_email" type="text" class="form__input" placeholder="Почта" name="email" value="<?= $reg_email ?>">
+            <span id="reg_mail_err" class="form__error"><?= $reg_email_err ?></span>
         </div>
 
         <div class="form__container">
-            <input type="text" class="form__input" placeholder="Номер телефона" name="phone_number" value="<?= $reg_phone ?>">
-            <span class="form__error"><?= $reg_phone_err ?></span>
-        </div>
-
-
-        <div class="form__container">
-            <input type="text" class="form__input" placeholder="Придумайте логин" name="login" value="<?= $reg_name ?>">
-            <span class="form__error"><?= $reg_name_err ?></span>
+            <input id="reg_phone" type="text" class="form__input" placeholder="Номер телефона" name="phone_number" value="<?= $reg_phone ?>">
+            <span id="reg_phone_err" class="form__error"><?= $reg_phone_err ?></span>
         </div>
 
 
         <div class="form__container">
-            <input type="password" class="form__input" placeholder="Пароль" name="password">
-            <input type="password" class="form__input" placeholder="Повторите пароль">
-            <span class="form__error"></span>
+            <input id="reg_login" type="text" class="form__input" placeholder="Придумайте логин" name="login" value="<?= $reg_name ?>">
+            <span id="reg_login_err" class="form__error"><?= $reg_name_err ?></span>
+        </div>
+
+
+        <div class="form__container">
+            <input id="reg_pass1" type="password" class="form__input" placeholder="Пароль" name="password">
+            <input id="reg_pass2" type="password" class="form__input" placeholder="Повторите пароль">
+            <span id="reg_pass_err" class="form__error"></span>
         </div>
 
         <div class="reg__agreement">

@@ -19,12 +19,20 @@ class AdController
         $this->modelData = [];
     }
 
-    public function ad_Action($params = []){
+    public function ad_Action($params = []): void
+    {
         $this->modelData = $this->model->getAd($params['id']);
-        $this->view->showAd($this->modelData);
+
+        if($this->modelData === []){
+            (new ErrorController())->error(404);
+            return;
+        }
 
         if(isset($_SESSION['id_user'])){
             $this->model->addToWatched($params['id'], $_SESSION['id_user']);
+            $this->modelData['isFavorite'] = $this->model->isFavoriteAd($_SESSION['id_user'], $params['id']);
         }
+
+        $this->view->showAd($this->modelData);
     }
 }
