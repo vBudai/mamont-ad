@@ -23,7 +23,8 @@ class Router
         return self::$instance;
     }
 
-    public function parse(): void {
+    public function parse(): void
+    {
         $url = $_SERVER['REQUEST_URI'];
         $matches = null;
 

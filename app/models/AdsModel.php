@@ -22,6 +22,8 @@ class AdsModel extends BaseModel
 
     }
 
+
+
     public function getAdsByCategories($c_type = "", &$c_name = ""): array
     {
         if(!$this->is_russian($c_name))
@@ -103,7 +105,6 @@ class AdsModel extends BaseModel
     private function transformationAdsData( &$arr ): void
     {
         foreach ($arr as $key => $value){
-            //$arr[$key] = $this->removeRepeatedInfo($value); // Удаление повторяющихся полей
             $arr[$key]['image_url'] = $this->getAdImage($value['id']); // Добавление изображения
             $arr[$key]['city'] = $this->getAdCity($value['id_city']); // Добавление города
         }
@@ -125,15 +126,6 @@ class AdsModel extends BaseModel
         if($city)
             return $city[0]['name'];
         return null;
-    }
-
-    private function removeRepeatedInfo($arr): array
-    {
-        foreach ($arr as $key => $value){
-            if(is_numeric($key))
-                unset($arr[$key]);
-        }
-        return $arr;
     }
 
     private function is_russian($text): bool

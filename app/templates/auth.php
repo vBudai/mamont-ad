@@ -39,20 +39,34 @@ if(isset($_SESSION['form']) && $_SESSION['form'] === "reg"){
 
     unset($_SESSION['form']);
 
+    // Считывание логина
     if(isset($_SESSION['login'])){
         $reg_name = $_SESSION['login'];
-        $reg_name_err = "Такой логин уже используется";
         unset($_SESSION['login']);
     }
+    if(isset($_SESSION['loginErr'])){
+        $reg_name_err = "Такой логин уже используется";
+        unset($_SESSION['loginErr']);
+    }
+
+    // Считывание почты
     if(isset($_SESSION['email'])){
         $reg_email = $_SESSION['email'];
-        $reg_email_err = "Такая почта уже используется";
         unset($_SESSION['email']);
     }
+    if(isset($_SESSION['emailErr'])){
+        $reg_email_err = "Такая почта уже используется";
+        unset($_SESSION['emailErr']);
+    }
+
+    // Считывание телефона
     if(isset($_SESSION['phone_number'])){
         $reg_phone = $_SESSION['phone_number'];
-        $reg_phone_err = "Такой номер уже используется";
         unset($_SESSION['phone_number']);
+    }
+    if(isset($_SESSION['phone_numberErr'])){
+        $reg_phone_err = "Такой номер уже используется";
+        unset($_SESSION['phone_numberErr']);
     }
 }
 
@@ -147,7 +161,7 @@ if(isset($_SESSION['form']) && $_SESSION['form'] === "reg"){
 </div>
 
 
-<script src="scripts/auth.js"></script>
+<script src="../../scripts/auth.js"></script>
 
 </body>
 </html>

@@ -54,7 +54,7 @@ class CreateAdModel extends BaseModel
         return $name[0]['name'];
     }
 
-    public function create_ad($ad = []) : bool|string
+    public function createAd($ad = []) : bool|string
     {
         if(isset($ad['images'])){
             $images = $ad['images']; // Вытаскивание переданных изображений
@@ -100,13 +100,11 @@ class CreateAdModel extends BaseModel
             unset($newData['images']);
         }
 
-        // UPDATE `ad` SET `title` = 'авыаываывавыаfdsasd', `description` = 'афывпыаврпырпыарыапврыеапврывапрывпdsaаfsdfsd', `min_price` = '123' WHERE `ad`.`id` = 107;
         $sql = "UPDATE ad SET ";
 
         foreach ($newData as $field => $value){
             if(str_starts_with($field, "id_") && $field !== "id_user")
                 $value = $this->getIdByName(substr($field, 3, null), $value);
-
 
             if(($field === "min_price" || $field === "max_price") && $value == ''){
                 $sql .= "`" . $field . "`=NULL, ";
@@ -145,7 +143,7 @@ class CreateAdModel extends BaseModel
         $sql = "INSERT INTO image_ad VALUES ";
         $values = "(NULL, " . $id_ad . ", 'https://storage.yandexcloud.net/ads-images/no-photo.png')";
 
-        if(!empty($images) && $images[0]['name'] !== ""){
+        if(!empty($images) && $images['name'][0] !== ""){
 
             $values = "";
 

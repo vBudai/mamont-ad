@@ -4,6 +4,7 @@ namespace app\database;
 
 use mysql_xdevapi\Exception;
 use PDO;
+use PDOException;
 use Symfony\Component\Dotenv\Dotenv;
 
 class Database
@@ -21,16 +22,21 @@ class Database
         return self::$instance;
     }
 
-    // Подключение
+    // Подключение к бд
     private function __construct() {
         $dotenv = new Dotenv();
-        if(file_exists(__DIR__.'../../config/.env')){
-            $dotenv->load(__DIR__.'../../config/.env');
+        if(file_exists(__DIR__ . '../../config/.env')){
+            $dotenv->load(__DIR__ . '../../config/.env');
         }
 
         try{
-            $this->conn = new PDO("mysql:host=$_ENV[DB_ADDRESS];dbname=$_ENV[DB_NAME]", $_ENV['DB_LOGIN'], $_ENV['DB_PASSWORD']);
-        } catch (\PDOException $e){
+            $this->conn = new PDO(
+                "mysql:host=$_ENV[DB_ADDRESS];
+                dbname=$_ENV[DB_NAME]",
+                $_ENV['DB_LOGIN'],
+                $_ENV['DB_PASSWORD']);
+
+        } catch (PDOException $e){
             echo 'Ошибка подключения к БД: ' . $e->getMessage() . '<br>';
         }
     }

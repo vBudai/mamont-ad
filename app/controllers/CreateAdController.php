@@ -2,15 +2,12 @@
 
 namespace app\controllers;
 
+use app\core\BaseController;
 use app\models\CreateAdModel;
 use app\views\CreateAdView;
 
-class CreateAdController
+class CreateAdController extends BaseController
 {
-    private CreateAdModel $model;
-    private array|null $modelData;
-    private CreateAdView $view;
-
 
     public function __construct()
     {
@@ -21,11 +18,18 @@ class CreateAdController
         $this->view = new CreateAdView();
     }
 
-    public function form_Action($params = []){
+    /**
+     * Вывод формы создания объявления
+     */
+    public function form_Action($params = []): void
+    {
         $this->view->showPage($this->model->getAllNames("main_category"), $this->model->getAllNames("city"));
     }
 
-    public function create_Action($params = [])
+    /**
+     * Обработка формы создания объявления
+     */
+    public function create_Action($params = []): void
     {
         $params = [];
 
@@ -51,15 +55,16 @@ class CreateAdController
         }
 
 
-        $id_ad = $this->model->create_ad($params);
+        $id_ad = $this->model->createAd($params);
 
         header("Location: " . BASE_URL . "ad/" . $id_ad);
 
     }
 
-
-    // Редактирование объявления
-    public function editForm_Action($params = [])
+    /**
+     * Обработка формы для редактирования объявление (в поля добавляются данные объявления)
+     */
+    public function editForm_Action($params = []): void
     {
 
         if(isset($params['id'])){
@@ -91,6 +96,9 @@ class CreateAdController
     }
 
 
+    /**
+     * Обработка формы редактирования объявления
+     */
     public function edit_Action($params = []): void
     {
         $id_ad = 0;
@@ -103,9 +111,7 @@ class CreateAdController
             return;
         }
 
-
-
-        // Если объявление было создано пользователем, который пытается его редактировать
+        // Если объявление не было создано пользователем, который пытается его редактировать
         if(!(isset($_SESSION['id_user']) && $_SESSION['id_user'] == $this->modelData['id_user'])){
             header("Location: " . BASE_URL);
             return ;
@@ -133,7 +139,6 @@ class CreateAdController
 
             $params += [ "images" => $images];
         }
-
 
         $this->model->editAd($id_ad, $params);
 

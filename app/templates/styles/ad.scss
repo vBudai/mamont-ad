@@ -101,7 +101,6 @@
       max-width: none;
       height: 384px;
 
-      background: #a67f7f;
     }
   }
 }
@@ -235,6 +234,7 @@
   @media (min-width: 1440px) {
     width: 550px;
     margin-left: 71px;
+    font-size: 16px;
   }
 }
 
@@ -340,6 +340,51 @@
   @media (min-width: 1440px) {
     font-size: 20px;
   }
+}
+
+.creator__raiting{
+  font-size: 10px;
+  font-weight: 300;
+
+  position: relative;
+
+  padding-left: 20px;
+
+  &:before{
+    content: "";
+
+    display: block;
+    width: 12px;
+    height: 12px;
+    left: 7px;
+
+    position: absolute;
+
+    background: url("../images/star_empty.svg") no-repeat;
+    background-size: cover;
+  }
+
+  @media (min-width: 744px) {
+    font-size: 12px;
+    padding-left: 22px;
+
+    &:before{
+      width: 14px;
+      height: 14px;
+    }
+
+  }
+
+  @media (min-width: 1440px) {
+    font-size: 16px;
+    padding-left: 26px;
+
+    &:before{
+      width: 18px;
+      height: 18px;
+    }
+  }
+
 }
 
 .ad__dop-info{
@@ -598,4 +643,16 @@
 
 .number-active{
   display: flex;
+}
+
+.number__comment{
+  position: absolute;
+  bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  font-weight: 300;
+
+  &:hover{
+    text-decoration: underline;
+  }
 }

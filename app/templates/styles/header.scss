@@ -138,9 +138,20 @@ header{
   border-top: none;
   border-radius: 0 18px 18px 18px;
 
-  top: 38px;
+  //top: 38px;
+  top:21px;
+  //left: -0.5px;
   left: -1px;
+  
+  @media (min-width: 744px) {
+    top:27px;
+  }
 
+  @media (min-width: 1440px) {
+    top: 38px;
+    left: -0.5px;
+  }
+  
   z-index: 4;
 
   width: 120%;

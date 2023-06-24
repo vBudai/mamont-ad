@@ -2,6 +2,9 @@ class SettingsFormChecker
 {
     form;
 
+    fnameField;
+    snameField;
+
     passwordField;
     newPasswordField;
     newPasswordRepeatField;
@@ -13,7 +16,7 @@ class SettingsFormChecker
     phoneField;
     phoneErrField;
 
-    constructor(form, passwordField, newPasswordField, newPasswordRepeatField, passwordErrField, emailField, emailErrField, phoneField, phoneErrField) {
+    constructor(form, passwordField, newPasswordField, newPasswordRepeatField, passwordErrField, emailField, emailErrField, phoneField, phoneErrField, fnameField, snameField) {
         this.form = form;
 
         this.passwordField = passwordField;
@@ -26,6 +29,9 @@ class SettingsFormChecker
 
         this.phoneField = phoneField;
         this.phoneErrField = phoneErrField;
+
+        this.fnameField = fnameField;
+        this.snameField = snameField;
 
         this.form.addEventListener('submit', this.SubmitForm.bind(this));
     }
@@ -91,6 +97,10 @@ class SettingsFormChecker
             this.emailErrField.textContent = "";
         }
 
+        // Проверка, были ли заполнены хоть какие-нибудь поля
+        if(this.emailField.value === "" && this.phoneField.value === "" && this.passwordField.value === "" && this.passwordField.value === "" && this.fnameField.value === "" && this.snameField.value === "")
+            result = false;
+
         return result;
     }
 
@@ -122,7 +132,10 @@ let formChecker = new SettingsFormChecker(
     document.querySelector(".settings__email .form__error"),
 
     document.querySelector(".settings__phone input"),
-    document.querySelector(".settings__phone .form__error")
+    document.querySelector(".settings__phone .form__error"),
+
+    document.querySelector("#first_name"),
+    document.querySelector("#second_name")
 )
 
 

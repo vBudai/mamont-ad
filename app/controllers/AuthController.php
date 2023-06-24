@@ -2,16 +2,12 @@
 
 namespace app\controllers;
 
+use app\core\BaseController;
 use app\models\AuthModel;
 use app\views\AuthView;
 
-class AuthController
+class AuthController extends BaseController
 {
-    private AuthModel $model;
-
-    private AuthView $view;
-
-    private int|string|array $modelData;
 
     public function __construct()
     {
@@ -22,20 +18,25 @@ class AuthController
         $this->view = new AuthView();
     }
 
-    public function form_action($params = []) : void
+    /**
+     * Загрузка страницы входа и регистрации
+     */
+    public function form_Action($params = []) : void
     {
-        $this->view->render();
+        $this->view->showForm();
     }
 
+
+    /**
+     * Обработка формы входа
+     */
     public function login_Action($params = []) : void
     {
 
         // Парсинг данных с формы
         $params = [];
-        foreach ($_POST as $param => $value)
-            if($param === "login" || $param === "password")
-                $params += [$param => $value];
-
+        $params += ['login' => $_POST['login']];
+        $params += ['password' => $_POST['password']];
 
         $this->modelData = $this->model->login($params);
 
@@ -61,32 +62,40 @@ class AuthController
         }
     }
 
+    /**
+     * Обработка формы регистрации
+     */
     public function registration_Action($params = []) : void
     {
 
         // Парсинг данных с формы
         $params = [];
-        foreach ($_POST as $param => $value)
-            if($param === "login" || $param === "password" || $param === "email" || $param === "phone_number")
-                $params += [$param => $value];
+        $params += ['login' => $_POST['login']];
+        $params += ['password' => $_POST['password']];
+        $params += ['email' => $_POST['email']];
+        $params += ['phone_number' => $_POST['phone_number']];
 
         $this->modelData = $this->model->registration($params);
         if(is_array($this->modelData)){
             $_SESSION['form'] = "reg";
-            foreach ($this->modelData as $field){
-                if($field === "email")
-                    $_SESSION['email'] = $params['email'];
-                if($field === "phone_number")
-                    $_SESSION['phone_number'] = $params['phone_number'];
-                if($field === "login")
-                    $_SESSION['login'] = $params['login'];
-            }
+
+            $_SESSION['email'] = $params['email'];
+
+            $_SESSION['phone_number'] = $params['phone_number'];
+
+            $_SESSION['login'] = $params['login'];
+
+            foreach ($this->modelData as $field)
+                $_SESSION[$field . "Err"] = true;
 
             header("Location: " . BASE_URL . "auth");
         }
         else if (is_int($this->modelData)){
            $_SESSION['id_user'] = $this->modelData;
             header("Location: " . BASE_URL);
+        }
+        else{
+            header("Location: " . BASE_URL . "auth");
         }
 
     }

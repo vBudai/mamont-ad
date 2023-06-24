@@ -60,14 +60,17 @@ if(isset($_SESSION['password'])){
 
     <div class="profile__menu">
 
-        <div class="profile__menu__user">
-            <div class="profile__user__img">
-                <img src="images/no_user_avatar.svg" alt="">
+        <a href="../comment/user=<?=$data['id_user']?>">
+            <div class="profile__menu__user">
+                <div class="profile__user__img">
+                    <img src="images/no_user_avatar.svg" alt="">
+                </div>
+                <div>
+                    <div class="profile__user__name"><?= $data['username'] ?></div>
+                    <div class="creator__raiting"><?= $data['raiting'] ?></div>
+                </div>
             </div>
-
-            <div class="profile__user__name"><?= $data['username'] ?></div>
-
-        </div>
+        </a>
         <div class="profile__menu__list">
             <ul>
                 <a href="../profile/my_ads"><li>Мои объявления</li></a>
@@ -109,13 +112,13 @@ if(isset($_SESSION['password'])){
             <div class="settings__name">
                 <div class="settings__name__first">
                     <span>Имя</span>
-                    <input type="text" placeholder="Сюда ваше имя" name="first_name">
+                    <input id="first_name" type="text" placeholder="Сюда ваше имя" name="first_name">
                 </div>
 
 
                 <div class="settings__name__second">
                     <span>Фамилия</span>
-                    <input type="text" placeholder="А сюда фамилию" name="last_name">
+                    <input id="second_name" type="text" placeholder="А сюда фамилию" name="last_name">
                 </div>
             </div>
 

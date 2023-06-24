@@ -4,9 +4,7 @@ namespace app\core;
 
 abstract class BaseController
 {
-    public function model($model = '')
-    {
-        require_once "../models/" . $model . "Model.php";
-        return new $model();
-    }
+    protected mixed $model;
+    protected mixed $modelData;
+    protected mixed $view;
 }

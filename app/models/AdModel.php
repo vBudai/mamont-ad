@@ -32,8 +32,8 @@ class AdModel extends BaseModel
                 if($favoriteCount != null)
                     $data['favoriteCount'] = $favoriteCount[0]['count'];
 
-                // Запрос на номер телефона пользователя, на имя и фамилию или логин
-                $userData = $this->db->query("SELECT phone_number, login, first_name, last_name FROM user WHERE id=".$data['id_user']);
+                // Запрос на номер телефона пользователя, на имя и фамилию или логин и рейтинг
+                $userData = $this->db->query("SELECT phone_number, login, first_name, last_name, raiting FROM user WHERE id=".$data['id_user']);
                 if ($userData != null){
                     $data['phone_number'] = $userData[0]['phone_number'];
                     if($userData[0]['first_name'] !== "" && $userData[0]['last_name'] !== "")
@@ -41,6 +41,7 @@ class AdModel extends BaseModel
                     else
                         $data['username'] = $userData[0]['login'];
                 }
+                $data['raiting'] = $userData[0]['raiting'];
 
                 // Запрос на название города
                 $city = $this->db->query("SELECT name FROM city WHERE id=" . $data['id_city']);
@@ -83,16 +84,6 @@ class AdModel extends BaseModel
             $this->db->query($sql);
         }
 
-    }
-
-
-    private function removeRepeatedAdInfo( $arr ){
-        foreach ($arr as $key => $value){
-            if(is_numeric($key))
-                unset($arr[$key]);
-        }
-
-        return $arr;
     }
 
 }

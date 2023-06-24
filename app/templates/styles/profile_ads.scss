@@ -114,11 +114,6 @@
     &:nth-child(1n){
       margin: 0 auto 30px auto;
     }
-
-    transition: transform 0.2s;
-    &:hover{
-      transform: scale(1.01);
-    }
   }
 
 
@@ -214,13 +209,13 @@
     width: 20px;
 
     &:hover{
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
   }
 }
 
 .ad__settings{
-white-space: nowrap;
+  white-space: nowrap;
 
   display: none;
 
@@ -238,7 +233,6 @@ white-space: nowrap;
 
   right: 8px;
   top: 7px;
-
   background: rgba(236, 236, 236, 0.95);
   border-radius: 15px 0 15px 15px;
   text-align: center;
@@ -257,9 +251,8 @@ white-space: nowrap;
   }
 
   @media (min-width: 1440px) {
-    border-radius: 0 25px 25px 25px;
-    right: auto;
-    left: 13px;
+    border-radius: 25px 0 25px 25px;
+    right: 12px;
     top: 10px;
   }
 
@@ -276,10 +269,8 @@ white-space: nowrap;
     margin-bottom: 0;
     color: red;
   }
-
-
-
 }
+
 
 .ad__settings__active{
   display: flex;
@@ -452,4 +443,29 @@ white-space: nowrap;
 
 .profile__menu__list__exit{
   font-weight: 100;
+}
+
+
+.creator__raiting{
+  font-size: 16px;
+  font-weight: 300;
+
+  position: relative;
+
+  padding-left: 20px;
+
+  &:before{
+    content: "";
+
+    display: block;
+    width: 18px;
+    height: 18px;
+    left: 0;
+
+    position: absolute;
+
+    background: url("../images/star_empty.svg") no-repeat;
+    background-size: cover;
+  }
+
 }

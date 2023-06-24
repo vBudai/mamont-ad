@@ -28,14 +28,18 @@
 
     <div class="profile__menu">
 
-        <div class="profile__menu__user">
-            <div class="profile__user__img">
-                <img src="images/no_user_avatar.svg" alt="">
+        <a href="../comment/user=<?=$data['id_user']?>">
+            <div class="profile__menu__user">
+                <div class="profile__user__img">
+                    <img src="images/no_user_avatar.svg" alt="">
+                </div>
+                <div>
+                    <div class="profile__user__name"><?= $data['username'] ?></div>
+                    <div class="creator__raiting"><?= $data['raiting'] ?></div>
+                </div>
             </div>
+        </a>
 
-            <div class="profile__user__name"><?= $data['username'] ?></div>
-
-        </div>
         <div class="profile__menu__list">
             <ul>
                 <a href="../profile/my_ads"><li>Мои объявления</li></a>
@@ -66,7 +70,7 @@
                 </h1>
             </div>
 
-            <?php for($i = 0; $i < count($data)-1; $i++){ ?>
+            <?php for($i = 0; $i < count($data)-3; $i++){ ?>
 
             <div class="ads__ad">
                 <a href="../ad/<?=$data[$i]['id']?>"><img class="ads__ad__mainImage" src="<?=$data[$i]['image_url']?>"/></a>
@@ -91,7 +95,7 @@
                     <object class="ad__settings">
                         <ul>
                             <?php if($title === "Просмотренные"):?>
-                                <a href="../create_ad/edit/<?=$data[$i]['id']?>"><li>В избранное</li></a>
+                                <a href="../profile/favorites/add/<?=$data[$i]['id']?>"><li>В избранное</li></a>
                             <?php else:?>
                                 <a href="../create_ad/edit/<?=$data[$i]['id']?>"><li>Редактировать</li></a>
                             <?php endif; ?>

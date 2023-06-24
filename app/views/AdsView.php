@@ -4,12 +4,8 @@ namespace app\views;
 
 class AdsView
 {
-    private array $ads;
 
-    public function __construct($params = [])
-    {
-        $this->ads = [];
-    }
+    public function __construct($params = []){}
 
     public function showAds($ads = []) : void
     {

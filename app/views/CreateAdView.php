@@ -8,8 +8,6 @@ class CreateAdView
 
     public function showPage($categories, $cities, array $adInfo = []): void
     {
-
         require __DIR__ . "../../templates/create_ad.php";
-
     }
 }

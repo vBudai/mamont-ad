@@ -58,7 +58,7 @@ class AuthModel extends BaseModel
             $fieldValues = substr($fieldValues, 0, -2) . ")";
             $sql = "INSERT INTO user " . $fields . " " . $fieldValues;
 
-                $this->db->query($sql);
+            $this->db->query($sql);
 
             return $this->db->lastInsertId("user"); // Возвращение id нового пользователя
         }

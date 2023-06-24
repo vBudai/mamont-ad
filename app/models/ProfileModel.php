@@ -14,22 +14,22 @@ class ProfileModel extends BaseModel
         $data = [];
 
         if($id_user != null && $id_user > 0) {
-            $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE id_user=" . $id_user . ' AND is_archived=0 ORDER BY id' ;
+            $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE id_user=" . $id_user . ' AND is_archived=0 ORDER BY id';
             $data = $this->db->query($sql);
-            $this->transformationAdsData($data);
+            $this->getAdsImage($data);
         }
 
         return $data;
     }
 
-    public function getUserName($id_user): string
+    public function getUserNameAndRaiting($id_user): array
     {
-        $sql = "SELECT login, first_name, last_name FROM user WHERE id=" . $id_user;
+        $sql = "SELECT login, first_name, last_name, raiting FROM user WHERE id=" . $id_user;
         $data = $this->db->query($sql)[0];
-        if($data["first_name"] !== "" && $data['last_name'] !== "")
-            return $data["first_name"] . " " . $data['last_name'];
+        if($data["first_name"] !== null && $data['last_name'] !== null)
+            return ['username' => $data["first_name"] . " " . $data['last_name'], 'raiting' => $data['raiting']];
         else
-            return $data['login'];
+            return ['username' => $data['login'], 'raiting' => $data['raiting']];
     }
 
     // Получение просмотренных объявлений
@@ -70,7 +70,7 @@ class ProfileModel extends BaseModel
         if($id_user != null && $id_user > 0) {
             $sql = "SELECT id, min_price, max_price, date, title FROM ad WHERE is_archived=1 AND id_user=".$id_user;
             $data = $this->db->query($sql);
-            $this->transformationAdsData($data);
+            $this->getAdsImage($data);
         }
 
         return $data;
@@ -178,7 +178,9 @@ class ProfileModel extends BaseModel
         $sql = substr($sql,0,-1); // Удаление последней запятой
         $sql .= " WHERE id=" . $id_user;
 
-        if($usedFields == [] && $this->db->query($sql))
+        $this->db->query($sql);
+
+        if($usedFields == [])
             return true;
         else
             return $usedFields;
@@ -198,7 +200,7 @@ class ProfileModel extends BaseModel
             if($ad != null)
                 $ads[] = $ad[0];
         }
-        $this->transformationAdsData($ads);
+        $this->getAdsImage($ads);
         return $ads;
     }
 
@@ -211,32 +213,16 @@ class ProfileModel extends BaseModel
         return true;
     }
 
-    // Удаление повторяющейся информации и добавление изображения
-    private function transformationAdsData( &$arr ): void
+    // Получение одной (певрой) фотографии для объявлений
+    private function getAdsImage(&$arr): void
     {
         foreach ($arr as $key => $value){
-            //$arr[$key] = $this->removeRepeatedInfo($value); // Удаление повторяющихся полей
-            $arr[$key]['image_url'] = $this->getAdImage($value['id']); // Добавление изображения
+            $sql = "SELECT image_url FROM image_ad WHERE id_ad=" . $value['id'] . ' LIMIT 1';
+            $imageData = $this->db->query($sql);
+            if($imageData)
+                $arr[$key]['image_url'] = $imageData[0]['image_url'];
+            else
+                $arr[$key]['image_url'] = null;
         }
-    }
-
-    // Получение одной (певрой) фотографии для объявления
-    private function getAdImage($id_ad): string|null
-    {
-        $sql = "SELECT image_url FROM image_ad WHERE id_ad=" . $id_ad . ' LIMIT 1';
-        $imageData = $this->db->query($sql);
-        if($imageData)
-            return $imageData[0]['image_url'];
-        return null;
-    }
-
-    // Удаление повторяющейся информации (с индексами из целых чисел)
-    private function removeRepeatedInfo($arr): array
-    {
-        foreach ($arr as $key => $value){
-            if(is_numeric($key))
-                unset($arr[$key]);
-        }
-        return $arr;
     }
 }

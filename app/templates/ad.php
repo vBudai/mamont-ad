@@ -1,9 +1,3 @@
-<?php
-
-?>
-
-
-
 <!DOCTYPE html>
 
 <html>
@@ -95,16 +89,24 @@
     </div>
 
 
+    <a href="../../comment/user=<?=$data['id_user']?>">
+        <div class="ad__creator">
+            <div class="creator__avatar">
+                <img src="../images/no_user_avatar.svg">
+            </div>
 
-    <div class="ad__creator">
-        <div class="creator__avatar">
-            <img src="../images/no_user_avatar.svg">
-        </div>
+            <div>
+                <div class="creator__name">
+                    <?=$data['username']?>
+                </div>
+                <div class="creator__raiting">
+                    <?= $data['raiting'] ?>
+                </div>
+            </div>
 
-        <div class="creator__name">
-            <?=$data['username']?>
         </div>
-    </div>
+    </a>
+
 
     <div class="ad__dop-info">
         <div class="dop-info__date">
@@ -137,7 +139,10 @@
     <div class="number__content">
         <span><?=$data['phone_number']?></span>
         <div class="number__close">X</div>
+        <div class="number__comment"><a href="../../comment/create/user=<?=$data['id_user']?>">Оставить отзыв</a></div>
+
     </div>
+
 </div>
 
 <script src="../scripts/ad.js"></script>

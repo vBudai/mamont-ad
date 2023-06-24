@@ -6,7 +6,7 @@ class AuthView
 {
     public function __construct(){}
 
-    public function render($params = []) : void
+    public function showForm($params = []) : void
     {
         require __DIR__ . "../../templates/auth.php";
     }

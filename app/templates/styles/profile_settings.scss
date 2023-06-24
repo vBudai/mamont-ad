@@ -20,6 +20,30 @@
   }
 }
 
+.creator__raiting{
+  font-size: 16px;
+  font-weight: 300;
+
+  position: relative;
+
+  padding-left: 20px;
+
+  &:before{
+    content: "";
+
+    display: block;
+    width: 18px;
+    height: 18px;
+    left: 0;
+
+    position: absolute;
+
+    background: url("../images/star_empty.svg") no-repeat;
+    background-size: cover;
+  }
+
+}
+
 .content__title__320{
   display: block;
   font-size: 14px;

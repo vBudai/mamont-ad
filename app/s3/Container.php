@@ -24,24 +24,23 @@ class Container
     public static function getS3Config(): S3ClientConfig
     {
         $config = require __DIR__ . "/../config/s3_conifg.php";
-        return new S3ClientConfig($config['S3_BUCKET'],$config['S3_ENDPOINT'], $config['S3_REGION'], $config['S3_KEY'],$config['S3_SECRET'],$config['S3_VERSION']);
-
+        return new S3ClientConfig(
+            $config['S3_BUCKET'],
+            $config['S3_ENDPOINT'],
+            $config['S3_REGION'],
+            $config['S3_KEY'],
+            $config['S3_SECRET'],
+            $config['S3_VERSION']
+        );
     }
 
     public static function getFileUploader(): FileUploader
     {
         return self::getS3FileUploader();
-        //Для изменения технологии работы с файлами поменять метод
-        //return self::getLocalFileUploader();
     }
 
     public static function getS3FileUploader(): S3FileUploader
     {
         return new S3FileUploader(self::getS3Client(),self::getS3Config());
-    }
-
-    public static function getLocalFileUploader(): LocalFileUploader
-    {
-        return new LocalFileUploader();
     }
 }

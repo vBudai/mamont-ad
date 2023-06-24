@@ -70,6 +70,10 @@ class CreateAdFormChecker{
             this.titleErrField.textContent = "Введите название!";
             result = false;
         }
+        else if(this.titleField.value >= 128){
+            this.titleErrField.textContent = "Название слишком длинное";
+            result = false;
+        }
         else{
             this.titleErrField.textContent = "";
             this.titleField.value = this.titleField.value.trim();

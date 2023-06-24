@@ -9,9 +9,7 @@ class AdView
 
     public function showAd($data): void
     {
-
         require __DIR__ . "../../templates/ad.php";
-
     }
 
 }

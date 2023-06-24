@@ -144,7 +144,11 @@ class RegistrationForm{
 
         // Проверка почты
         if(this.emailField.value.trim() === ""){
-            this.emailFieldErr.textContent = "Введите email!"
+            this.emailFieldErr.textContent = "Введите почту!"
+            result = false;
+        }
+        else if(!this.isValidEmail(this.emailField.value)){
+            this.emailFieldErr.textContent = "Неккоректный формат почты!"
             result = false;
         }
         else
@@ -155,12 +159,16 @@ class RegistrationForm{
             this.phoneFieldErr.textContent = "Введите телефон!"
             result = false;
         }
+        else if(!this.isValidPhone(this.phoneField.value)){
+            this.phoneFieldErr.textContent = "Неккоректный формат номера!"
+            result = false;
+        }
         else
             this.phoneFieldErr.textContent = ""
 
         // Проверка логина
         if(this.loginField.value.trim() === ""){
-            this.loginFieldErr.textContent = "Введите телефон!"
+            this.loginFieldErr.textContent = "Введите логин!"
             result = false;
         }
         else
@@ -182,11 +190,20 @@ class RegistrationForm{
         if(!agreement.checked)
             result = false;
 
-
-
-
-
         return result;
+    }
+
+
+    isValidEmail(email)
+    {
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        return emailRegex.test(email);
+    }
+
+    isValidPhone(phoneNumber)
+    {
+        const phoneRegex = /^[1-9]\d{1,14}$/;
+        return phoneRegex.test(phoneNumber);
     }
 
 }
